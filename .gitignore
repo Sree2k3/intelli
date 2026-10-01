@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.env
+.venv
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+backend/app.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.docker/
+
+# Local env files (keep .env.example)
+backend/.env
+frontend/.env
+voice-server/.env
+
+# Secrets
+*.pem
+*.key
+*.crt
+
+# Uploads
+backend/uploads/
+!backend/uploads/.gitkeep
+
+# Test/debug files
+backend/test*.py
+backend/debug*.py
+backend/check*.py
+backend/output.txt
+backend/dump.txt
+backend/pip_out.txt
+backend/questions_dump.txt
+
+# Model files (large)
+*.pt
+*.onnx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary
+tmp/
+temp/
+*.tmp

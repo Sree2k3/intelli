@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Interview Application</title>
+  <meta name="description" content="AI-Powered Interview Platform" />
+  <meta name="author" content="Xeviewer" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <script>
+    (function () {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+
+  <!-- XevTicket Support Widget Integration Code -->
+  <script>
+    // 1. Configure the origin application name showing on tickets
+    window.XEV_TICKET_APP_NAME = "Scaloz People"; // Change to "MyShop", "HrPortal", etc.
+    // 2. Set the base URL of your XevTicket environment
+    window.XEV_TICKET_BASE_URL = "https://xevticket.xevyte.com";
+
+    // 3. Load the integration script asynchronously only after the page loads
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.src = window.XEV_TICKET_BASE_URL + "/embed.js";
+      s.async = true;
+      document.body.appendChild(s);
+    });
+  </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+services:
+ 
+  frontend:
+
+    build:
+      context: ./frontend
+
+      args:
+
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL:-https://aiinterviewtest.scaloz.com/api}
+
+        - VITE_VOICE_SERVER_URL=${VITE_VOICE_SERVER_URL:-wss://aiinterviewtest.scaloz.com/voice}
+
+        - VITE_SCALOZ_URL=${VITE_SCALOZ_URL:-https://workspacetest.scaloz.com}
+
+        - VITE_SSO_MODE=${VITE_SSO_MODE:-true}
+
+        - VITE_ENABLE_PAYLOAD_ENCRYPTION=${VITE_ENABLE_PAYLOAD_ENCRYPTION:-true}
+
+        - VITE_ENCRYPTION_KEY=${VITE_ENCRYPTION_KEY:-Xc5qurndq22SuKwKg1mnIY1a43BBODmFVTA2o1N17JQ=}
+
+    ports:
+
+      - "3000:80"
+
+    env_file:
+      - path: ./frontend/.env
+        required: false
+
+    depends_on:
+
+      - backend
+
+    networks:
+
+      - xevyte-net
+
+    restart: always
+ 
+  backend:
+
+    build: ./backend
+
+    ports:
+
+      - "5000:8000"
+
+    env_file:
+      - path: ./backend/.env
+        required: false
+
+    extra_hosts:
+
+      - "host.docker.internal:host-gateway"
+
+    volumes:
+
+      - ./backend/uploads:/app/uploads
+
+    depends_on:
+
+      - voice-server
+      - judge0
+
+    networks:
+
+      - xevyte-net
+
+    restart: always
+ 
+  voice-server:
+
+    build: ./voice-server
+
+    ports:
+
+      - "8081:8081"
+
+    env_file:
+      - path: ./voice-server/.env
+        required: false
+
+    networks:
+
+      - xevyte-net
+
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - xevyte-net
+    restart: always
+
+  judge0:
+    image: judge0/judge0:1.13.1
+    ports:
+      - "2358:2358"
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: judge0
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - xevyte-net
+    restart: always
+
+  judge0-workers:
+    image: judge0/worker:1.13.1
+    deploy:
+      replicas: 2
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: judge0
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - xevyte-net
+    restart: always
+ 
+networks:
+
+  xevyte-net:
+
+    driver: bridge
